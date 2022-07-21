@@ -1,10 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SortingMethods
 {
+    public interface ISortingObserver<T>
+    {
+        void Swapped(T[] arr);
+    }
+
     public class SelectionSort<T>
         where T: IComparable<T>
     {
+        private readonly IList<ISortingObserver<T>> observers = new List<ISortingObserver<T>>();
+
         public static void Swap(T[] arr, int index1, int index2)
         {
             var temp = arr[index1];
@@ -33,6 +42,9 @@ namespace SortingMethods
             return arr;
         }
 
+        public void AddObserver(ISortingObserver<T> observer) 
+            => observers.Add(observer);
+
         public T[] Sort(T[] arr)
         {
             for (int i = 0; i < arr.Length; i++)
@@ -50,6 +62,11 @@ namespace SortingMethods
                     arr[i] = tuple.MinValue;
 
                     arr[tuple.MinIndex] = temp;
+
+                    (observers as List<ISortingObserver<T>>)
+                        .ForEach(obj => obj?.Swapped(arr));
+
+                    Task.Delay(158).Wait();
                 }
             }
 

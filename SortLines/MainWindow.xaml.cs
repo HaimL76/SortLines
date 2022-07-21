@@ -36,7 +36,14 @@ namespace SortLines
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            drawLines.AddSortedLines();
+            try
+            {
+                drawLines.AddSortedLinesAsync();
+            }
+            catch
+            {
+
+            }
         }
     }
 }
