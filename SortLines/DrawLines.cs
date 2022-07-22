@@ -58,12 +58,34 @@ namespace SortLines
                 {
                     try
                     {
-                        //var selectionSort = new SelectionSort<int>();
-                        var insertionSort = new InsertionSort<int>();
+                        for (int i = 0; i < 111111; i++)
+                        {
+                            array = new int[100];
 
-                        insertionSort.AddObserver(this);
+                            for (int j = 0; j < array.Length; j++)
+                                array[j] = j;
 
-                        array = insertionSort.Sort(array);
+                            array = SelectionSort<int>.Shuffle(array);
+
+                            //AddLines(canvas, array);
+
+                            SortingMethod<int> sorting = null;
+
+                            int mod = i % 3;
+
+                            if (mod == 0)
+                                sorting = new BubbleSort<int>();
+
+                            if (mod == 1)
+                                sorting = new SelectionSort<int>();
+
+                            if (mod == 2)
+                                sorting = new InsertionSort<int>();
+
+                            sorting.AddObserver(this);
+
+                            array = sorting.Sort(array);
+                        }
                     }
                     catch(Exception exception)
                     {

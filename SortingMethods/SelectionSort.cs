@@ -76,7 +76,7 @@ namespace SortingMethods
                     NotifySwapped(arr);
                 }
 
-                Task.Delay(28).Wait();
+                Task.Delay(8).Wait();
             }
 
             return arr;
@@ -120,7 +120,40 @@ namespace SortingMethods
                     NotifySwapped(arr);
                 }
 
-                Task.Delay(28).Wait();
+                Task.Delay(8).Wait();
+            }
+
+            return arr;
+        }
+    }
+
+    public class BubbleSort<T> : SortingMethod<T>
+        where T : IComparable<T>
+    {
+        public override T[] Sort(T[] arr)
+        {
+            bool isSorted = false;
+
+            for (int i = 0; !isSorted && i < arr.Length; i++)
+            {
+                bool hasSwapped = false;
+
+                for (int j = 1; !isSorted && j < arr.Length - i; j++)
+                {
+                    T lower = arr[j - 1];
+                    T higher = arr[j];
+
+                    if (lower.CompareTo(higher) > 0)
+                    {
+                        Swap(arr, j, j - 1);
+
+                        hasSwapped = true;
+                    }
+                }
+
+                isSorted = !hasSwapped;
+
+                Task.Delay(8).Wait();
             }
 
             return arr;
