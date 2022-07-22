@@ -159,4 +159,52 @@ namespace SortingMethods
             return arr;
         }
     }
+
+    public class QuickSort<T> : SortingMethod<T>
+    where T : IComparable<T>
+    {
+        public void Sort0(T[] arr, int left, int right)
+        {
+            int left0 = left;
+            int right0 = right;
+
+            if (right > left)
+            {
+                int pivot = (left + right) / 2;
+
+                while (left0 <= pivot && right0 >= pivot)
+                {
+                    while (arr[left0].CompareTo(arr[pivot]) < 0 && left0++ <= pivot)
+                        _ = 0;
+
+                    while (arr[right0].CompareTo(arr[pivot]) > 0 && right0++ >= pivot)
+                        _ = 0;
+
+                    Swap(arr, left0, right0);
+
+                    NotifySwapped(arr);
+
+                    left0++;
+                    right--;
+
+                    if (left0 - 1 == pivot)
+                        pivot = ++right0;
+                    else if (right0 + 1 == pivot)
+                        pivot = --left0;
+
+                    Sort0(arr, left, pivot - 1);
+                    Sort0(arr, pivot + 1, right);
+
+                    Task.Delay(8).Wait();
+                }
+            }
+        }
+
+        public override T[] Sort(T[] arr)
+        {
+            Sort0(arr, 0, arr.Length - 1);
+
+            return arr;
+        }
+    }
 }

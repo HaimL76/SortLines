@@ -71,7 +71,7 @@ namespace SortLines
 
                             SortingMethod<int> sorting = null;
 
-                            int mod = i % 3;
+                            int mod = i % 4;
 
                             if (mod == 0)
                                 sorting = new BubbleSort<int>();
@@ -81,6 +81,9 @@ namespace SortLines
 
                             if (mod == 2)
                                 sorting = new InsertionSort<int>();
+
+                            if (mod == 3)
+                                sorting = new QuickSort<int>();
 
                             sorting.AddObserver(this);
 
