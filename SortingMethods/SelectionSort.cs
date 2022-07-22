@@ -9,7 +9,7 @@ namespace SortingMethods
         void Swapped(T[] arr);
     }
 
-    public class SelectionSort<T>
+    public abstract class SortingMethod<T>
         where T: IComparable<T>
     {
         private readonly IList<ISortingObserver<T>> observers = new List<ISortingObserver<T>>();
@@ -42,10 +42,20 @@ namespace SortingMethods
             return arr;
         }
 
-        public void AddObserver(ISortingObserver<T> observer) 
+        public abstract T[] Sort(T[] arr);
+
+        public void AddObserver(ISortingObserver<T> observer)
             => observers.Add(observer);
 
-        public T[] Sort(T[] arr)
+        protected void NotifySwapped(T[] arr)
+            => (observers as List<ISortingObserver<T>>)
+                .ForEach(obj => obj?.Swapped(arr));
+    }
+
+    public class SelectionSort<T> : SortingMethod<T>
+        where T: IComparable<T>
+    {
+        public override T[] Sort(T[] arr)
         {
             for (int i = 0; i < arr.Length; i++)
             {
@@ -63,11 +73,54 @@ namespace SortingMethods
 
                     arr[tuple.MinIndex] = temp;
 
-                    (observers as List<ISortingObserver<T>>)
-                        .ForEach(obj => obj?.Swapped(arr));
-
-                    Task.Delay(158).Wait();
+                    NotifySwapped(arr);
                 }
+
+                Task.Delay(28).Wait();
+            }
+
+            return arr;
+        }
+    }
+
+    public class InsertionSort<T> : SortingMethod<T>
+        where T : IComparable<T>
+    {
+        public override T[] Sort(T[] arr)
+        {
+            for (int i = 1; i < arr.Length; i++)
+            {
+                T obj = arr[i];
+
+                int j = i - 1;
+
+                //int? index = null;
+
+                int? index = null;
+
+                bool isGreaterThan = false;
+
+                while (!isGreaterThan && j >= 0)
+                {
+                    isGreaterThan = obj.CompareTo(arr[j]) > 0;
+                    
+                    if (!isGreaterThan)
+                        index = j;
+
+                    j--;
+                }
+
+                if (index.HasValue)
+                {
+                    for (j = i; j > index.Value; j--)
+                        arr[j] = arr[j - 1];
+
+                    arr[index.Value] = obj;
+
+                    NotifySwapped(arr);
+                }
+
+                Task.Delay(28).Wait();
             }
 
             return arr;

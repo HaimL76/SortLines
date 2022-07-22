@@ -58,11 +58,12 @@ namespace SortLines
                 {
                     try
                     {
-                        var selectionSort = new SelectionSort<int>();
+                        //var selectionSort = new SelectionSort<int>();
+                        var insertionSort = new InsertionSort<int>();
 
-                        selectionSort.AddObserver(this);
+                        insertionSort.AddObserver(this);
 
-                        array = selectionSort.Sort(array);
+                        array = insertionSort.Sort(array);
                     }
                     catch(Exception exception)
                     {
